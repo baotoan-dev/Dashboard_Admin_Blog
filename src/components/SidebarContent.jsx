@@ -16,6 +16,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -45,6 +46,7 @@ export default function SidebarContent({ isMobile, collapsed, onToggleCollapse }
         { text: 'Add Customer', path: '/customers/add' },
       ],
     },
+    { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
   ];
 
   const renderNavItem = (item, idx, parentKey = '') => {

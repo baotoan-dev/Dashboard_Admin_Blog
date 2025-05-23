@@ -1,56 +1,102 @@
-import { Box, TextField, Button } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Box, TextField, Button, IconButton } from '@mui/material';
+import UploadIcon from '@mui/icons-material/CloudUpload';
+import CloseIcon from '@mui/icons-material/Close';
+import { useTheme } from '@mui/material/styles';
 
-export default function CustomerForm({ isMobile, drawerWidth, formData, onChange, onSubmit }) {
+export default function CustomerForm({ form, onChange, onSubmit, onRemoveAvatar }) {
+  const theme = useTheme();
+
   return (
     <Box component="form" onSubmit={onSubmit}>
-      <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
-        Customer Form
-      </Typography>
+      <Box
+        sx={{
+          width: 100,
+          height: 100,
+          mb: 2,
+          border: '1px dashed #ccc',
+          borderRadius: 2,
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: theme.palette.background.paper,
+          overflow: 'hidden',
+        }}
+      >
+        {!form.avatar ? (
+          <>
+            <input
+              type="file"
+              name="avatar"
+              accept="image/*"
+              id="avatar-upload"
+              hidden
+              onChange={onChange}
+            />
+            <label
+              htmlFor="avatar-upload"
+              style={{
+                cursor: 'pointer',
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <UploadIcon fontSize="large" color="action" />
+            </label>
+          </>
+        ) : (
+          <>
+            <img
+              src={typeof form.avatar === 'string' ? form.avatar : URL.createObjectURL(form.avatar)}
+              alt=""
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: 8,
+                display: 'block',
+              }}
+              onError={(e) => (e.target.style.display = 'none')}
+            />
+            <IconButton
+              size="small"
+              onClick={onRemoveAvatar}
+              sx={{
+                position: 'absolute',
+                top: 4,
+                right: 4,
+                background: 'rgba(255,255,255,0.7)',
+                '&:hover': { background: 'rgba(255,255,255,1)' },
+              }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </>
+        )}
+      </Box>
       <TextField
-        name="customerName"
-        label="Customer Name"
-        value={formData.customerName}
+        name="firstName"
+        label="First Name"
+        value={form.firstName}
         onChange={onChange}
         fullWidth
         margin="normal"
       />
       <TextField
-        name="customerPhone"
-        label="Phone Number"
-        value={formData.customerPhone}
+        name="lastName"
+        label="Last Name"
+        value={form.lastName}
         onChange={onChange}
         fullWidth
         margin="normal"
       />
       <TextField
-        name="addressLine1"
-        label="Address Line 1"
-        value={formData.addressLine1}
-        onChange={onChange}
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        name="addressLine2"
-        label="Address Line 2"
-        value={formData.addressLine2}
-        onChange={onChange}
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        name="cardNumber"
-        label="Card Number"
-        value={formData.cardNumber}
-        onChange={onChange}
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        name="cardExpiry"
-        label="Card Expiry"
-        value={formData.cardExpiry}
+        name="email"
+        label="Email"
+        value={form.email}
         onChange={onChange}
         fullWidth
         margin="normal"

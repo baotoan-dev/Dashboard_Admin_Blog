@@ -5,6 +5,8 @@ import Layout from './components/Layout';
 import BlogListPage from './pages/BlogListPage';
 import CustomerListPage from './pages/CustomerListPage';
 import DashBoardPage from './pages/DashboardPage';
+import CreateBlogPage from './pages/CreateBlogPage';
+import CreateCustomerPage from './pages/CreateCustomerPage';
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -43,6 +45,8 @@ function App() {
               <Route path="/" element={<DashBoardPage />} />
               <Route path="/blogs" element={<BlogListPage />} />
               <Route path="/customers" element={<CustomerListPage />} />
+              <Route path="/blogs/add" element={<CreateBlogPage />} />
+              <Route path="/customers/add" element={<CreateCustomerPage />} />
             </Route>
           </Routes>
         </Router>
