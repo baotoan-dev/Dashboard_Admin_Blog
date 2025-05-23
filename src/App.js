@@ -15,11 +15,17 @@ export function useColorMode() {
 }
 
 function App() {
-  const [mode, setMode] = useState('light');
+  // Lấy mode từ localStorage, mặc định là 'light'
+  const [mode, setMode] = useState(() => localStorage.getItem('themeMode') || 'light');
+
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+        setMode((prevMode) => {
+          const nextMode = prevMode === 'light' ? 'dark' : 'light';
+          localStorage.setItem('themeMode', nextMode); // Lưu vào localStorage
+          return nextMode;
+        });
       },
     }),
     [],

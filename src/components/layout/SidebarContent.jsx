@@ -9,17 +9,14 @@ import {
   Divider,
   Collapse,
 } from '@mui/material';
-import ArticleIcon from '@mui/icons-material/Article';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import SettingsIcon from '@mui/icons-material/Settings';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import navItems from '../../data/nav-items.js';
 
 export default function SidebarContent({ isMobile, collapsed, onToggleCollapse }) {
   const location = useLocation();
@@ -28,27 +25,6 @@ export default function SidebarContent({ isMobile, collapsed, onToggleCollapse }
   const handleToggleMenu = (key) => {
     setOpenMenus((prev) => ({ ...prev, [key]: !prev[key] }));
   };
-
-  const navItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
-    {
-      text: 'Blogs',
-      icon: <ArticleIcon />,
-      children: [
-        { text: 'All Blogs', path: '/blogs' },
-        { text: 'Add Blog', path: '/blogs/add' },
-      ],
-    },
-    {
-      text: 'Customers',
-      icon: <PersonAddIcon />,
-      children: [
-        { text: 'All Customers', path: '/customers' },
-        { text: 'Add Customer', path: '/customers/add' },
-      ],
-    },
-    { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
-  ];
 
   const renderNavItem = (item, idx, parentKey = '') => {
     const key = parentKey + item.text;
