@@ -17,6 +17,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import SettingsIcon from '@mui/icons-material/Settings';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -83,9 +84,11 @@ export default function SidebarContent({ isMobile, collapsed, onToggleCollapse }
           selected={location.pathname === item.path}
           sx={{
             borderRadius: 1,
-            mb: parentKey ? 0.5 : 1, // menu con mb nhỏ hơn hoặc bằng 0
+            mb: collapsed ? 0 : parentKey ? 0 : 1, // chỉ menu cha mới có mb khi không collapsed
             justifyContent: collapsed ? 'center' : 'flex-start',
-            pl: parentKey ? 4 : undefined, // thụt vào nếu là menu con
+            pl: parentKey && !collapsed ? 4 : undefined, // thụt vào nếu là menu con và không collapsed
+            px: collapsed ? 1 : 2,
+            minHeight: 40, // thu nhỏ chiều cao nếu muốn
             '&.Mui-selected': {
               backgroundColor: 'primary.main',
               color: 'white',
@@ -93,9 +96,9 @@ export default function SidebarContent({ isMobile, collapsed, onToggleCollapse }
             },
           }}
         >
-          {item.icon && !parentKey && (
-            <ListItemIcon sx={{ minWidth: 0, mr: collapsed ? 0 : 2 }}>{item.icon}</ListItemIcon>
-          )}
+          <ListItemIcon sx={{ minWidth: 0, mr: collapsed ? 0 : 2 }}>
+            {item.icon || (parentKey && <FiberManualRecordIcon sx={{ fontSize: 10 }} />)}
+          </ListItemIcon>
           {!collapsed && <ListItemText primary={item.text} />}
         </ListItemButton>
       </Tooltip>
