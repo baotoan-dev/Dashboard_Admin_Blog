@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Box, CssBaseline, Drawer, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import Header from './Header';
-import SidebarContent from './SidebarContent';
-import Footer from './Footer';
+import Header from './layout/Header';
+import SidebarContent from './layout/SidebarContent';
+import Footer from './layout/Footer';
 
 const expandedWidth = 240;
 const collapsedWidth = 72;

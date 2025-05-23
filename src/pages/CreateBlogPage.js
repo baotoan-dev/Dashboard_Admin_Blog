@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import BlogForm from '../components/BlogForm';
+import BlogForm from '../components/blog/BlogForm';
 
 export default function CreateBlogPage() {
   const [form, setForm] = useState({

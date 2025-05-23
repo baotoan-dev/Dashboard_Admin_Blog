@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Button, TextField, Stack } from '@mui/material';
-import BaseModal from './BaseModal';
+import BaseModal from '../modal/BaseModal';
 
-export default function EditBlogModal({ open, onClose, onSave, blog }) {
+export default function EditCustomerModal({ open, onClose, onSave, customer }) {
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -10,8 +10,8 @@ export default function EditBlogModal({ open, onClose, onSave, blog }) {
   });
 
   useEffect(() => {
-    if (blog) setForm(blog);
-  }, [blog]);
+    if (customer) setForm(customer);
+  }, [customer]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -25,7 +25,7 @@ export default function EditBlogModal({ open, onClose, onSave, blog }) {
     <BaseModal
       open={open}
       onClose={onClose}
-      title="Chỉnh sửa bài viết"
+      title="Chỉnh sửa khách hàng"
       actions={
         <>
           <Button onClick={onClose} variant="outlined">
@@ -39,17 +39,24 @@ export default function EditBlogModal({ open, onClose, onSave, blog }) {
     >
       <Stack spacing={2}>
         <TextField
-          label="Tiêu đề"
-          name="title"
+          label="Họ"
+          name="firstName"
           fullWidth
-          value={form.title}
+          value={form.firstName}
           onChange={handleChange}
         />
         <TextField
-          label="Nội dung"
-          name="content"
+          label="Tên"
+          name="lastName"
           fullWidth
-          value={form.content}
+          value={form.lastName}
+          onChange={handleChange}
+        />
+        <TextField
+          label="Email"
+          name="email"
+          fullWidth
+          value={form.email}
           onChange={handleChange}
         />
       </Stack>

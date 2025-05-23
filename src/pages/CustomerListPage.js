@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomerTable from '../components/CustomerTable';
+import CustomerTable from '../components/customer/CustomerTable';
 import { customers } from '../data/customers';
 
 export default function CustomerListPage() {

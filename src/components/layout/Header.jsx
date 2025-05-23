@@ -13,7 +13,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { useColorMode } from '../App'; // import hook vừa tạo
+import { useColorMode } from '../../App'; // import hook vừa tạo
 
 export default function Header({ isMobile, onToggleDrawer }) {
   const [anchorEl, setAnchorEl] = useState(null);

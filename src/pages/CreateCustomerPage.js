@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import CustomerForm from '../components/CustomerForm';
+import CustomerForm from '../components/customer/CustomerForm';
 
 export default function CreateCustomerPage() {
   const [form, setForm] = useState({

@@ -1,5 +1,5 @@
 import React from 'react';
-import Dashboard from '../components/Dashboard';
+import Dashboard from '../components/dashboard/Dashboard';
 import { customers } from '../data/customers';
 import { blogs } from '../data/blogs';
 

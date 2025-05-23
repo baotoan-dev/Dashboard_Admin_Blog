@@ -16,40 +16,39 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import SearchIcon from '@mui/icons-material/Search';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { motion } from 'framer-motion';
-import ConfirmDeleteModal from './ConfirmDeleteModal';
-import EditCustomerModal from './EditCustomerModal';
+import ConfirmDeleteModal from '../modal/ConfirmDeleteModal';
+import EditBlogModal from './EditBlogModal';
 
-export default function CustomerTable({ customers, onEdit, onDelete }) {
+export default function BlogTable({ blogs, onEdit, onDelete }) {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [selectedBlog, setSelectedBlog] = useState(null);
   const rowsPerPage = 5;
 
-  // Lọc customer theo search (theo tiêu đề hoặc tác giả)
-  const filteredCustomers = customers.filter(
-    (customer) =>
-      customer.firstName.toLowerCase().includes(search.toLowerCase()) ||
-      customer.lastName.toLowerCase().includes(search.toLowerCase()) ||
-      customer.email.toLowerCase().includes(search.toLowerCase()),
+  // Lọc blog theo search (theo tiêu đề hoặc tác giả)
+  const filteredBlogs = blogs.filter(
+    (blog) =>
+      blog.title.toLowerCase().includes(search.toLowerCase()) ||
+      blog.author.toLowerCase().includes(search.toLowerCase()),
   );
 
   // Lấy dữ liệu trang hiện tại
-  const pagedCustomers = filteredCustomers.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+  const pagedBlogs = filteredBlogs.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
 
-  const handleDeleteClick = (customer) => {
-    setSelectedCustomer(customer);
+  const handleDeleteClick = (blog) => {
+    setSelectedBlog(blog);
     setDeleteOpen(true);
   };
 
   return (
     <Box>
       <Typography variant="h6" mb={2} fontWeight="bold">
-        Customer Table
+        Blog Table
       </Typography>
 
       <TextField
@@ -86,10 +85,9 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
                 padding: '6px 8px',
                 fontSize: '12px',
               },
-              '& th:nth-of-type(3), & td:nth-of-type(3), & th:nth-of-type(5), & td:nth-of-type(5)':
-                {
-                  display: 'none',
-                },
+              '& th:nth-of-type(3), & td:nth-of-type(3)': {
+                display: 'none', // Ẩn cột Nội dung trên mobile
+              },
             },
           }}
         >
@@ -97,40 +95,25 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
             <TableHead>
               <TableRow>
                 <TableCell>#</TableCell>
-                <TableCell>Avatar</TableCell>
-                <TableCell>First Name</TableCell>
-                <TableCell>Last Name</TableCell>
-                <TableCell>Email</TableCell>
+                <TableCell>Tiêu đề</TableCell>
+                <TableCell>Nội dung</TableCell>
+                <TableCell>Tác giả</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {pagedCustomers.map((customer, index) => (
+              {pagedBlogs.map((blog, index) => (
                 <TableRow key={index}>
                   <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-                  <TableCell>
-                    <Box
-                      component="img"
-                      src={customer.avatar}
-                      alt={customer.first_name}
-                      sx={{
-                        width: 50,
-                        height: 50,
-                        objectFit: 'cover',
-                        borderRadius: '50%',
-                        flexShrink: 0,
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell>{customer.firstName}</TableCell>
-                  <TableCell>{customer.lastName}</TableCell>
-                  <TableCell>{customer.email}</TableCell>
+                  <TableCell>{blog.title}</TableCell>
+                  <TableCell>{blog.content}</TableCell>
+                  <TableCell>{blog.author}</TableCell>
                   <TableCell>
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <IconButton
                         color="primary"
                         onClick={() => {
-                          setSelectedCustomer(customer);
+                          setSelectedBlog(blog);
                           setEditOpen(true);
                         }}
                       >
@@ -139,7 +122,7 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
                       <IconButton
                         color="error"
                         onClick={() => {
-                          handleDeleteClick(customer);
+                          handleDeleteClick(blog);
                         }}
                       >
                         <DeleteIcon />
@@ -148,7 +131,7 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
                   </TableCell>
                 </TableRow>
               ))}
-              {pagedCustomers.length === 0 && (
+              {pagedBlogs.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={5} align="center">
                     Không có dữ liệu
@@ -168,11 +151,11 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
           <ArrowBackIcon />
         </IconButton>
         <Typography variant="body2">
-          {page + 1} / {Math.max(1, Math.ceil(filteredCustomers.length / rowsPerPage))}
+          {page + 1} / {Math.max(1, Math.ceil(filteredBlogs.length / rowsPerPage))}
         </Typography>
         <IconButton
           color="primary"
-          disabled={(page + 1) * rowsPerPage >= filteredCustomers.length}
+          disabled={(page + 1) * rowsPerPage >= filteredBlogs.length}
           onClick={() => setPage(page + 1)}
         >
           <ArrowForwardIcon />
@@ -183,22 +166,22 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
         open={deleteOpen}
         onClose={() => setDeleteOpen(false)}
         onConfirm={() => {
-          onDelete(selectedCustomer);
+          onDelete(selectedBlog);
           setDeleteOpen(false);
         }}
-        title="Xóa customer"
-        message={`Bạn có chắc chắn muốn xóa customer "${selectedCustomer?.firstName}" không?`}
+        title="Xóa blog"
+        message={`Bạn có chắc chắn muốn xóa blog "${selectedBlog?.title}" không?`}
       />
 
-      <EditCustomerModal
+      <EditBlogModal
         open={editOpen}
         onClose={() => setEditOpen(false)}
-        onSave={(updatedCustomer) => {
-          onEdit(selectedCustomer.id, updatedCustomer);
+        onSave={(updatedBlog) => {
+          onEdit(selectedBlog.id, updatedBlog);
           setEditOpen(false);
         }}
-        customer={selectedCustomer}
-        title="Chỉnh sửa khách hàng"
+        customer={selectedBlog}
+        title="Chỉnh sửa blog"
       />
     </Box>
   );
