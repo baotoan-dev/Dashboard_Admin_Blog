@@ -3,18 +3,23 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Typography,
   Box,
   Avatar,
   Menu,
   MenuItem,
   Divider,
+  useTheme,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useColorMode } from '../App'; // import hook vừa tạo
 
 export default function Header({ isMobile, onToggleDrawer }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const theme = useTheme();
+  const colorMode = useColorMode();
 
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,7 +39,8 @@ export default function Header({ isMobile, onToggleDrawer }) {
       position="fixed"
       sx={{
         zIndex: (theme) => theme.zIndex.drawer + 1,
-        backgroundColor: '#1976d2',
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.text.primary,
         boxShadow: 3,
       }}
     >
@@ -53,17 +59,23 @@ export default function Header({ isMobile, onToggleDrawer }) {
             </IconButton>
           )}
           <img
-            src="https://avatars.githubusercontent.com/u/208282390?v=4"
+            src="https://cdn.prod.website-files.com/67767d919e878fb670aab52d/67a20a39bd9bfb2d4ddd796d_Light-logo-v2.avif"
             alt="Logo"
-            style={{ height: '40px', marginRight: '12px', borderRadius: '8px' }}
+            style={{
+              height: '40px',
+              marginRight: '12px',
+              borderRadius: '8px',
+              background: 'transparent',
+              boxShadow: theme.palette.mode === 'light' ? '0 0 0 1px #ccc' : 'none',
+            }}
           />
-          <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 600 }}>
-            Admin
-          </Typography>
         </Box>
 
         {/* Right Section */}
-        <Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <IconButton onClick={colorMode.toggleColorMode} color="inherit">
+            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
           <Avatar
             alt="User"
             src="https://i.pravatar.cc/150?img=3"

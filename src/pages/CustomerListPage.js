@@ -3,5 +3,13 @@ import CustomerTable from '../components/CustomerTable';
 import { customers } from '../data/customers';
 
 export default function CustomerListPage() {
-  return <CustomerTable customers={customers} />;
+  const handleEdit = (customer) => {
+    console.log('Edit customer:', customer);
+  };
+  const handleDelete = (customer) => {
+    console.log('Delete customer:', customer);
+  };
+  return (
+    <CustomerTable customers={customers} onEdit={() => handleEdit} onDelete={() => handleDelete} />
+  );
 }

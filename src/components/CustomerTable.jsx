@@ -20,11 +20,13 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import SearchIcon from '@mui/icons-material/Search';
 import { motion } from 'framer-motion';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
+import EditCustomerModal from './EditCustomerModal';
 
 export default function CustomerTable({ customers, onEdit, onDelete }) {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const rowsPerPage = 5;
 
@@ -125,7 +127,13 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
                   <TableCell>{customer.email}</TableCell>
                   <TableCell>
                     <Box sx={{ display: 'flex', gap: 1 }}>
-                      <IconButton color="primary" onClick={() => onEdit(customer)}>
+                      <IconButton
+                        color="primary"
+                        onClick={() => {
+                          setSelectedCustomer(customer);
+                          setEditOpen(true);
+                        }}
+                      >
                         <EditIcon />
                       </IconButton>
                       <IconButton
@@ -179,7 +187,18 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
           setDeleteOpen(false);
         }}
         title="Xóa customer"
-        message={`Bạn có chắc chắn muốn xóa customer "${selectedCustomer?.title}" không?`}
+        message={`Bạn có chắc chắn muốn xóa customer "${selectedCustomer?.firstName}" không?`}
+      />
+
+      <EditCustomerModal
+        open={editOpen}
+        onClose={() => setEditOpen(false)}
+        onSave={(updatedCustomer) => {
+          onEdit(selectedCustomer.id, updatedCustomer);
+          setEditOpen(false);
+        }}
+        customer={selectedCustomer}
+        title="Chỉnh sửa khách hàng"
       />
     </Box>
   );

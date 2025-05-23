@@ -3,5 +3,11 @@ import BlogTable from '../components/BlogTable';
 import { blogs } from '../data/blogs';
 
 export default function BlogListPage() {
-  return <BlogTable blogs={blogs} />;
+  const handleEdit = (blog) => {
+    console.log('Edit blog:', blog);
+  };
+  const handleDelete = (blog) => {
+    console.log('Delete blog:', blog);
+  };
+  return <BlogTable blogs={blogs} onEdit={handleEdit} onDelete={handleDelete} />;
 }

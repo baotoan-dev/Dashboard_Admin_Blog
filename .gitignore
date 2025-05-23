@@ -1,0 +1,27 @@
+# create file gitignore
+# Ignore the node_modules directory
+node_modules/
+# Ignore the build directory
+build/
+# Ignore the dist directory
+dist/
+# Ignore the coverage directory
+coverage/
+# Ignore the .env file
+.env
+# Ignore the .DS_Store file
+.DS_Store
+# Ignore the .vscode directory
+.vscode/
+# Ignore the .idea directory
+.idea/
+# Ignore the .history directory
+.history/
+# Ignore the .log files
+*.log
+# Ignore the .env.local file
+.env.local
+# Ignore the .env.development.local file
+.env.development.local
+# Ignore the .env.test.local file
+.env.test.local

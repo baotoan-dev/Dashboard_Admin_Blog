@@ -20,11 +20,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { motion } from 'framer-motion';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
+import EditBlogModal from './EditBlogModal';
 
 export default function BlogTable({ blogs, onEdit, onDelete }) {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const rowsPerPage = 5;
 
@@ -108,7 +110,13 @@ export default function BlogTable({ blogs, onEdit, onDelete }) {
                   <TableCell>{blog.author}</TableCell>
                   <TableCell>
                     <Box sx={{ display: 'flex', gap: 1 }}>
-                      <IconButton color="primary" onClick={() => onEdit(blog)}>
+                      <IconButton
+                        color="primary"
+                        onClick={() => {
+                          setSelectedBlog(blog);
+                          setEditOpen(true);
+                        }}
+                      >
                         <EditIcon />
                       </IconButton>
                       <IconButton
@@ -163,6 +171,17 @@ export default function BlogTable({ blogs, onEdit, onDelete }) {
         }}
         title="Xóa blog"
         message={`Bạn có chắc chắn muốn xóa blog "${selectedBlog?.title}" không?`}
+      />
+
+      <EditBlogModal
+        open={editOpen}
+        onClose={() => setEditOpen(false)}
+        onSave={(updatedBlog) => {
+          onEdit(selectedBlog.id, updatedBlog);
+          setEditOpen(false);
+        }}
+        customer={selectedBlog}
+        title="Chỉnh sửa blog"
       />
     </Box>
   );

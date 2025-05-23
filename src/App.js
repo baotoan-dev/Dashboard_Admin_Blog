@@ -1,22 +1,53 @@
-import React from 'react';
+import React, { useMemo, useState, createContext, useContext } from 'react';
+import { ThemeProvider, createTheme, CssBaseline, IconButton } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import BlogListPage from './pages/BlogListPage';
 import CustomerListPage from './pages/CustomerListPage';
 import DashBoardPage from './pages/DashboardPage';
 
+const ColorModeContext = createContext({ toggleColorMode: () => {} });
+
+export function useColorMode() {
+  return useContext(ColorModeContext);
+}
+
 function App() {
+  const [mode, setMode] = useState('light');
+  const colorMode = useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+      },
+    }),
+    [],
+  );
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+        },
+      }),
+    [mode],
+  );
+
   return (
-    <Router>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<DashBoardPage />} />
-          <Route path="/blogs" element={<BlogListPage />} />
-          <Route path="/customers" element={<CustomerListPage />} />
-          {/* <Route path="/" element={<BlogPage />} /> */}
-        </Route>
-      </Routes>
-    </Router>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<DashBoardPage />} />
+              <Route path="/blogs" element={<BlogListPage />} />
+              <Route path="/customers" element={<CustomerListPage />} />
+            </Route>
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 
