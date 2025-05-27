@@ -12,6 +12,7 @@ import {
   IconButton,
   TextField,
   InputAdornment,
+  Button,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -21,6 +22,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { motion } from 'framer-motion';
 import ConfirmDeleteModal from '../modal/ConfirmDeleteModal';
 import EditCustomerModal from './EditCustomerModal';
+import { useNavigate } from 'react-router-dom';
 
 export default function CustomerTable({ customers, onEdit, onDelete }) {
   const [search, setSearch] = useState('');
@@ -29,6 +31,7 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
   const [editOpen, setEditOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const rowsPerPage = 5;
+  const navigate = useNavigate();
 
   // Lọc customer theo search (theo tiêu đề hoặc tác giả)
   const filteredCustomers = customers.filter(
@@ -47,9 +50,21 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
 
   return (
     <Box>
-      <Typography variant="h6" mb={2} fontWeight="bold">
-        Customer Table
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+        <Typography variant="h6" fontWeight="bold">
+          Customer Table
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            // redirect to /customers
+            navigate('/customers/add');
+          }}
+        >
+          Tạo mới
+        </Button>
+      </Box>
 
       <TextField
         size="small"

@@ -1,4 +1,4 @@
-import { Box, TextField, Button, IconButton } from '@mui/material';
+import { Box, TextField, Button, IconButton, MenuItem } from '@mui/material';
 import UploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material/styles';
@@ -7,13 +7,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { uploadAvatar } from '../../api/upload'; // import hàm upload ảnh
+import { uploadAvatar } from '../../api/upload';
+import { ROLE_OPTIONS } from '../../data/roles';
 
 // Schema validation với yup
 const schema = yup.object().shape({
   FullName: yup.string().required('Full Name is required'),
   Email: yup.string().email('Invalid email').required('Email is required'),
   Password: yup.string().required('Password is required'),
+  Role: yup.string().required('Role is required'),
 });
 
 export default function CustomerForm({ form, onSubmit, onRemoveAvatar }) {
@@ -157,6 +159,22 @@ export default function CustomerForm({ form, onSubmit, onRemoveAvatar }) {
           fullWidth
           margin="normal"
         />
+        <TextField
+          {...register('Role')}
+          select
+          label="Role"
+          defaultValue={form.Role || 'User'}
+          error={!!errors.Role}
+          helperText={errors.Role?.message}
+          fullWidth
+          margin="normal"
+        >
+          {ROLE_OPTIONS.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
         <Button type="submit" variant="contained" sx={{ mt: 2 }}>
           Submit
         </Button>
