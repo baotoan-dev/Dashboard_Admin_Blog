@@ -199,7 +199,7 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
           setDeleteOpen(false);
         }}
         title="Xóa customer"
-        message={`Bạn có chắc chắn muốn xóa customer "${selectedCustomer?.firstName}" không?`}
+        message={`Bạn có chắc chắn muốn xóa customer "${selectedCustomer?.fullName}" không?`}
       />
 
       <EditCustomerModal
