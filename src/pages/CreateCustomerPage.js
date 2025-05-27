@@ -4,10 +4,10 @@ import CustomerForm from '../components/customer/CustomerForm';
 
 export default function CreateCustomerPage() {
   const [form, setForm] = useState({
-    avatar: '',
-    firstName: '',
-    lastName: '',
-    email: '',
+    AvatarUrl: '',
+    FullName: '',
+    Password: '',
+    Email: '',
   });
 
   const handleChange = (e) => {
@@ -22,9 +22,8 @@ export default function CreateCustomerPage() {
     setForm({ ...form, avatar: '' });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Customer created!\n' + JSON.stringify(form, null, 2));
+  const handleSubmit = (data) => {
+    alert('Customer created!\n' + JSON.stringify(data, null, 2));
   };
 
   return (

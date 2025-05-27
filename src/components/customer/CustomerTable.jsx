@@ -33,8 +33,7 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
   // Lọc customer theo search (theo tiêu đề hoặc tác giả)
   const filteredCustomers = customers.filter(
     (customer) =>
-      customer.firstName.toLowerCase().includes(search.toLowerCase()) ||
-      customer.lastName.toLowerCase().includes(search.toLowerCase()) ||
+      customer.fullName.toLowerCase().includes(search.toLowerCase()) ||
       customer.email.toLowerCase().includes(search.toLowerCase()),
   );
 
@@ -99,8 +98,8 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
                 <TableCell>#</TableCell>
                 <TableCell>Avatar</TableCell>
                 <TableCell>First Name</TableCell>
-                <TableCell>Last Name</TableCell>
                 <TableCell>Email</TableCell>
+                <TableCell>Status</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -111,8 +110,11 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
                   <TableCell>
                     <Box
                       component="img"
-                      src={customer.avatar}
-                      alt={customer.first_name}
+                      src={
+                        customer.avatarUrl ||
+                        'https://res.cloudinary.com/ddwjnjssj/image/upload/v1748309105/rxujxggvyaf9fahaqduf.png'
+                      }
+                      alt={customer.fullName}
                       sx={{
                         width: 50,
                         height: 50,
@@ -122,9 +124,19 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
                       }}
                     />
                   </TableCell>
-                  <TableCell>{customer.firstName}</TableCell>
-                  <TableCell>{customer.lastName}</TableCell>
+                  <TableCell>{customer.fullName}</TableCell>
                   <TableCell>{customer.email}</TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: customer.isActive ? 'green' : 'red',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {customer.isActive ? 'Active' : 'Inactive'}
+                    </Typography>
+                  </TableCell>
                   <TableCell>
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <IconButton
