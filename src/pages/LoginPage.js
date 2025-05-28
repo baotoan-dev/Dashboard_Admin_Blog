@@ -13,8 +13,11 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff, Lock, Email, Person } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import { useDispatch } from 'react-redux';
+import { login } from '../data/authSlice'; // Adjust the import path as necessary
 
 export default function LoginPage({ onLogin }) {
+  const dispatch = useDispatch();
   const [form, setForm] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -27,17 +30,13 @@ export default function LoginPage({ onLogin }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-    // Fake login — replace with real API call
-    setTimeout(() => {
-      setLoading(false);
-      if (form.email === 'admin@example.com' && form.password === '123456') {
-        onLogin?.(form);
-      } else {
-        setError('Email hoặc mật khẩu không đúng!');
-      }
-    }, 1000);
+    try {
+      await dispatch(login(form)).unwrap();
+      // Sau khi login thành công, có thể redirect hoặc reload
+      window.location.href = '/';
+    } catch (err) {
+      // error sẽ được lấy từ redux
+    }
   };
 
   return (
