@@ -11,6 +11,7 @@ import CreateCustomerPage from './pages/CreateCustomerPage';
 import store from './store'; // Import store từ file store.js
 import LoginPage from './pages/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import GuestRoute from './components/GuestRoute';
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -52,7 +53,9 @@ function App() {
           <CssBaseline />
           <Router>
             <Routes>
-              <Route path="/login" element={<LoginPage />} />
+              <Route element={<GuestRoute />}>
+                <Route path="/login" element={<LoginPage />} />
+              </Route>
               <Route element={<ProtectedRoute />}>
                 <Route element={<Layout />}>
                   <Route path="/" element={<DashBoardPage />} />

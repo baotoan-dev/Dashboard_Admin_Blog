@@ -9,33 +9,40 @@ export const login = createAsyncThunk('auth/login', async ({ email, password }) 
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });
-  if (!res.ok) throw new Error('Sai tài khoản hoặc mật khẩu');
-  return await res.json(); // { token, user }
+  const data = await res.json();
+  console.log('data', data);
+  if (!res.ok) {
+    throw new Error(data.message || 'Đăng nhập thất bại');
+  }
+  return data; // chỉ trả về data, không gọi lại res.json()
 });
 
 // Lấy profile user hiện tại
 export const getProfile = createAsyncThunk('auth/getProfile', async (_, { getState }) => {
-  const token = getState().auth.token;
+  const token = getState().auth.accessToken; // Sửa lại dòng này
   const res = await fetch(`${API_URL}/profile`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (!res.ok) throw new Error('Không lấy được profile');
-  return await res.json(); // { ...user }
+  return await res.json();
 });
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    token: localStorage.getItem('token') || null,
+    accessToken: localStorage.getItem('accessToken') || null,
+    refreshToken: localStorage.getItem('refreshToken') || null,
     status: 'idle',
     error: null,
   },
   reducers: {
     logout(state) {
       state.user = null;
-      state.token = null;
-      localStorage.removeItem('token');
+      state.accessToken = null;
+      state.refreshToken = null;
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
     },
   },
   extraReducers: (builder) => {
@@ -46,9 +53,10 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        localStorage.setItem('token', action.payload.token);
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+        localStorage.setItem('accessToken', action.payload.accessToken);
+        localStorage.setItem('refreshToken', action.payload.refreshToken);
       })
       .addCase(login.rejected, (state, action) => {
         state.status = 'failed';
