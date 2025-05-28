@@ -9,6 +9,8 @@ import DashBoardPage from './pages/DashboardPage';
 import CreateBlogPage from './pages/CreateBlogPage';
 import CreateCustomerPage from './pages/CreateCustomerPage';
 import store from './store'; // Import store từ file store.js
+import LoginPage from './pages/LoginPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -50,12 +52,15 @@ function App() {
           <CssBaseline />
           <Router>
             <Routes>
-              <Route element={<Layout />}>
-                <Route path="/" element={<DashBoardPage />} />
-                <Route path="/blogs" element={<BlogListPage />} />
-                <Route path="/customers" element={<CustomerListPage />} />
-                <Route path="/blogs/add" element={<CreateBlogPage />} />
-                <Route path="/customers/add" element={<CreateCustomerPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route element={<Layout />}>
+                  <Route path="/" element={<DashBoardPage />} />
+                  <Route path="/blogs" element={<BlogListPage />} />
+                  <Route path="/customers" element={<CustomerListPage />} />
+                  <Route path="/blogs/add" element={<CreateBlogPage />} />
+                  <Route path="/customers/add" element={<CreateCustomerPage />} />
+                </Route>
               </Route>
             </Routes>
           </Router>
