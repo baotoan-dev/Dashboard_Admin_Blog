@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Button, TextField, Stack } from '@mui/material';
+import { Button, TextField, Stack, MenuItem } from '@mui/material';
 import BaseModal from '../modal/BaseModal';
+import { ROLE_OPTIONS } from '../../data/roles';
 
 export default function EditCustomerModal({ open, onClose, onSave, customer }) {
+  console.log('customer:', customer);
   const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
+    Fullname: '',
+    Password: '',
+    Email: '',
   });
 
   useEffect(() => {
@@ -39,17 +41,10 @@ export default function EditCustomerModal({ open, onClose, onSave, customer }) {
     >
       <Stack spacing={2}>
         <TextField
-          label="Họ"
-          name="firstName"
+          label="Tên đầy đủ"
+          name="Fullname"
           fullWidth
-          value={form.firstName}
-          onChange={handleChange}
-        />
-        <TextField
-          label="Tên"
-          name="lastName"
-          fullWidth
-          value={form.lastName}
+          value={form.fullName}
           onChange={handleChange}
         />
         <TextField
@@ -59,6 +54,20 @@ export default function EditCustomerModal({ open, onClose, onSave, customer }) {
           value={form.email}
           onChange={handleChange}
         />
+        <TextField
+          label="Password"
+          name="Password"
+          fullWidth
+          value={form.password}
+          onChange={handleChange}
+        />
+        <TextField select label="Role" defaultValue={form.Role || 'User'} fullWidth margin="normal">
+          {ROLE_OPTIONS.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
       </Stack>
     </BaseModal>
   );

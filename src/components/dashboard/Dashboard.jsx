@@ -22,12 +22,23 @@ import {
 import ArticleIcon from '@mui/icons-material/Article';
 import PeopleIcon from '@mui/icons-material/People';
 import { motion } from 'framer-motion';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchUsers } from '../../data/userSlice.js'; // Adjust the import path as necessary
 
 export default function Dashboard({ blogs, customers }) {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
-
   const isLoading = !blogs || !customers;
+  const users = useSelector((state) => state.user.list);
+
+  useEffect(() => {
+    if (!users || users.length === 0) {
+      dispatch(fetchUsers());
+    }
+  }, [users, dispatch]);
 
   if (isLoading) {
     return (
@@ -104,7 +115,7 @@ export default function Dashboard({ blogs, customers }) {
               <Box display="flex" alignItems="center" mb={2}>
                 <PeopleIcon color="secondary" sx={{ mr: 1 }} />
                 <Typography variant="h6" fontWeight={600}>
-                  Phân phối giới tính khách hàng
+                  Phân phối giới tính nguời dùng
                 </Typography>
               </Box>
 

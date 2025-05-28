@@ -1,12 +1,16 @@
 import { useMemo, useState, createContext, useContext } from 'react';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux'; // Thêm dòng này
 import Layout from './components/Layout';
 import BlogListPage from './pages/BlogListPage';
 import CustomerListPage from './pages/CustomerListPage';
 import DashBoardPage from './pages/DashboardPage';
 import CreateBlogPage from './pages/CreateBlogPage';
 import CreateCustomerPage from './pages/CreateCustomerPage';
+import store from './store'; // Import store từ file store.js
+import LoginPage from './pages/LoginPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -42,22 +46,27 @@ function App() {
   );
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Router>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<DashBoardPage />} />
-              <Route path="/blogs" element={<BlogListPage />} />
-              <Route path="/customers" element={<CustomerListPage />} />
-              <Route path="/blogs/add" element={<CreateBlogPage />} />
-              <Route path="/customers/add" element={<CreateCustomerPage />} />
-            </Route>
-          </Routes>
-        </Router>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+    <Provider store={store}>
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Router>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route element={<Layout />}>
+                  <Route path="/" element={<DashBoardPage />} />
+                  <Route path="/blogs" element={<BlogListPage />} />
+                  <Route path="/customers" element={<CustomerListPage />} />
+                  <Route path="/blogs/add" element={<CreateBlogPage />} />
+                  <Route path="/customers/add" element={<CreateCustomerPage />} />
+                </Route>
+              </Route>
+            </Routes>
+          </Router>
+        </ThemeProvider>
+      </ColorModeContext.Provider>
+    </Provider>
   );
 }
 

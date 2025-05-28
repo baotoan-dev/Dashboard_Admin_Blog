@@ -12,6 +12,7 @@ import {
   IconButton,
   TextField,
   InputAdornment,
+  Button,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -21,6 +22,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { motion } from 'framer-motion';
 import ConfirmDeleteModal from '../modal/ConfirmDeleteModal';
 import EditCustomerModal from './EditCustomerModal';
+import { useNavigate } from 'react-router-dom';
 
 export default function CustomerTable({ customers, onEdit, onDelete }) {
   const [search, setSearch] = useState('');
@@ -29,12 +31,12 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
   const [editOpen, setEditOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const rowsPerPage = 5;
+  const navigate = useNavigate();
 
   // Lọc customer theo search (theo tiêu đề hoặc tác giả)
   const filteredCustomers = customers.filter(
     (customer) =>
-      customer.firstName.toLowerCase().includes(search.toLowerCase()) ||
-      customer.lastName.toLowerCase().includes(search.toLowerCase()) ||
+      customer.fullName.toLowerCase().includes(search.toLowerCase()) ||
       customer.email.toLowerCase().includes(search.toLowerCase()),
   );
 
@@ -48,9 +50,21 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
 
   return (
     <Box>
-      <Typography variant="h6" mb={2} fontWeight="bold">
-        Customer Table
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+        <Typography variant="h6" fontWeight="bold">
+          Customer Table
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            // redirect to /customers
+            navigate('/customers/add');
+          }}
+        >
+          Tạo mới
+        </Button>
+      </Box>
 
       <TextField
         size="small"
@@ -99,8 +113,8 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
                 <TableCell>#</TableCell>
                 <TableCell>Avatar</TableCell>
                 <TableCell>First Name</TableCell>
-                <TableCell>Last Name</TableCell>
                 <TableCell>Email</TableCell>
+                <TableCell>Status</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -111,8 +125,11 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
                   <TableCell>
                     <Box
                       component="img"
-                      src={customer.avatar}
-                      alt={customer.first_name}
+                      src={
+                        customer.avatarUrl ||
+                        'https://res.cloudinary.com/ddwjnjssj/image/upload/v1748309105/rxujxggvyaf9fahaqduf.png'
+                      }
+                      alt={customer.fullName}
                       sx={{
                         width: 50,
                         height: 50,
@@ -122,9 +139,19 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
                       }}
                     />
                   </TableCell>
-                  <TableCell>{customer.firstName}</TableCell>
-                  <TableCell>{customer.lastName}</TableCell>
+                  <TableCell>{customer.fullName}</TableCell>
                   <TableCell>{customer.email}</TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: customer.isActive ? 'green' : 'red',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {customer.isActive ? 'Active' : 'Inactive'}
+                    </Typography>
+                  </TableCell>
                   <TableCell>
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <IconButton
@@ -187,7 +214,7 @@ export default function CustomerTable({ customers, onEdit, onDelete }) {
           setDeleteOpen(false);
         }}
         title="Xóa customer"
-        message={`Bạn có chắc chắn muốn xóa customer "${selectedCustomer?.firstName}" không?`}
+        message={`Bạn có chắc chắn muốn xóa customer "${selectedCustomer?.fullName}" không?`}
       />
 
       <EditCustomerModal
