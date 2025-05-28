@@ -31,11 +31,12 @@ export default function LoginPage({ onLogin }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       await dispatch(login(form)).unwrap();
-      // Sau khi login thành công, có thể redirect hoặc reload
+      setLoading(false);
       window.location.href = '/';
     } catch (err) {
-      // error sẽ được lấy từ redux
+      setLoading(false);
     }
   };
 
