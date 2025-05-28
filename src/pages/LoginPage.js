@@ -15,6 +15,7 @@ import { Visibility, VisibilityOff, Lock, Email, Person } from '@mui/icons-mater
 import { motion } from 'framer-motion';
 import { useDispatch } from 'react-redux';
 import { login } from '../data/authSlice'; // Adjust the import path as necessary
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage({ onLogin }) {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export default function LoginPage({ onLogin }) {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -33,8 +35,7 @@ export default function LoginPage({ onLogin }) {
     try {
       setLoading(true);
       await dispatch(login(form)).unwrap();
-      setLoading(false);
-      window.location.href = '/';
+      navigate('/');
     } catch (err) {
       setLoading(false);
     }
