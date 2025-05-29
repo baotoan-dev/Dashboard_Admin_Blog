@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import CustomerTable from '../components/customer/CustomerTable';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsers } from '../data/userSlice';
+import { fetchUsers, deleteUser } from '../data/userSlice';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CustomerListPage() {
   const dispatch = useDispatch();
@@ -14,11 +16,20 @@ export default function CustomerListPage() {
   const handleEdit = (customer) => {
     console.log('Edit customer:', customer);
   };
-  const handleDelete = (customer) => {
-    console.log('Delete customer:', customer);
+
+  const handleDelete = async (customer) => {
+    try {
+      await dispatch(deleteUser(customer.id)).unwrap();
+      toast.success('Xóa khách hàng thành công!');
+    } catch (err) {
+      toast.error('Xóa khách hàng thất bại!');
+    }
   };
 
-  console.log('customers:', customers);
-
-  return <CustomerTable customers={customers} onEdit={handleEdit} onDelete={handleDelete} />;
+  return (
+    <>
+      <CustomerTable customers={customers} onEdit={handleEdit} onDelete={handleDelete} />
+      <ToastContainer position="top-right" autoClose={2000} />
+    </>
+  );
 }
