@@ -2,7 +2,7 @@ import { Box, TextField, Button, Stack } from '@mui/material';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useRef, useMemo } from 'react';
-import { uploadAvatar } from '../../api/upload';
+import { uploadFile } from '../../api/upload';
 
 function BlogForm({ form, onChange, onSubmit }) {
   const quillRef = useRef();
@@ -15,7 +15,7 @@ function BlogForm({ form, onChange, onSubmit }) {
     input.onchange = () => {
       const file = input.files[0];
       if (file) {
-        uploadAvatar(file).then((url) => {
+        uploadFile(file).then((url) => {
           const quill = quillRef.current.getEditor();
           let range = quill.getSelection();
           if (!range) {
