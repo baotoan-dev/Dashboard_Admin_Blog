@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-export async function uploadAvatar(file) {
+export async function uploadFile(file) {
   const URL = `${process.env.REACT_APP_API_URL_UPLOAD}/api/files`;
-
-  console.log('Uploading file to:', URL);
 
   const formData = new FormData();
 

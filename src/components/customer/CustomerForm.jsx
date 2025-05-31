@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import React from 'react';
 import { motion } from 'framer-motion';
-import { uploadAvatar } from '../../api/upload';
+import { uploadFile } from '../../api/upload';
 import { ROLE_OPTIONS } from '../../data/roles';
 
 // Schema validation với yup
@@ -42,7 +42,7 @@ export default function CustomerForm({ form, onSubmit, onRemoveAvatar }) {
     const file = e.target.files[0];
     if (!file) return;
     try {
-      const url = await uploadAvatar(file);
+      const url = await uploadFile(file);
       setValue('AvatarUrl', url, { shouldValidate: true, shouldDirty: true });
     } catch (err) {
       alert('Upload failed!');

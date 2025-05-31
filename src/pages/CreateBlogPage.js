@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import BlogForm from '../components/blog/BlogForm';
 
 export default function CreateBlogPage() {
   const [form, setForm] = useState({
     title: '',
-    summary: '',
     content: '',
     image: '',
   });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (name, value) => {
+    setForm((prev) => ({
+      ...prev,
+      [name]: value ?? '',
+    }));
   };
 
   const handleSubmit = (e) => {
