@@ -26,6 +26,7 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchUsers } from '../../data/userSlice.js'; // Adjust the import path as necessary
+import { Helmet } from 'react-helmet';
 
 export default function Dashboard({ blogs, customers }) {
   const theme = useTheme();
@@ -76,72 +77,82 @@ export default function Dashboard({ blogs, customers }) {
   const COLORS = ['#42A5F5', '#66BB6A', '#FFA726', '#EF5350', '#AB47BC'];
 
   return (
-    <Box>
-      <Typography variant="h6" mb={2} fontWeight="bold" textAlign={isSmall ? 'center' : 'left'}>
-        Dashboard Thống Kê
-      </Typography>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.4 }}
-        style={{ width: '100%' }}
-      >
-        <Grid container spacing={4}>
-          {/* Biểu đồ Blog */}
-          <Grid item xs={12} md={6}>
-            <Paper elevation={4} sx={{ p: isSmall ? 2 : 3, minHeight: isSmall ? 360 : 420 }}>
-              <Box display="flex" alignItems="center" mb={2}>
-                <ArticleIcon color="primary" sx={{ mr: 1 }} />
-                <Typography variant="h6" fontWeight={600}>
-                  Số blog theo tác giả
-                </Typography>
-              </Box>
+    <>
+      <Helmet>
+        <title>Dashboard Thống Kê | Admin Blog</title>
+        <meta
+          name="description"
+          content="Xem thống kê số lượng blog theo tác giả và phân phối giới tính người dùng trên hệ thống Dashboard Admin Blog."
+        />
+        <meta name="keywords" content="dashboard, thống kê, blog, khách hàng, admin" />
+      </Helmet>
+      <Box>
+        <Typography variant="h6" mb={2} fontWeight="bold" textAlign={isSmall ? 'center' : 'left'}>
+          Dashboard Thống Kê
+        </Typography>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.4 }}
+          style={{ width: '100%' }}
+        >
+          <Grid container spacing={4}>
+            {/* Biểu đồ Blog */}
+            <Grid item xs={12} md={6}>
+              <Paper elevation={4} sx={{ p: isSmall ? 2 : 3, minHeight: isSmall ? 360 : 420 }}>
+                <Box display="flex" alignItems="center" mb={2}>
+                  <ArticleIcon color="primary" sx={{ mr: 1 }} />
+                  <Typography variant="h6" fontWeight={600}>
+                    Số blog theo tác giả
+                  </Typography>
+                </Box>
 
-              <ResponsiveContainer width="100%" height={isSmall ? 250 : 320}>
-                <BarChart data={blogData} layout="vertical">
-                  <XAxis type="number" />
-                  <YAxis dataKey="author" type="category" width={100} />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="count" fill="#1976d2" barSize={20} />
-                </BarChart>
-              </ResponsiveContainer>
-            </Paper>
+                <ResponsiveContainer width="100%" height={isSmall ? 250 : 320}>
+                  <BarChart data={blogData} layout="vertical">
+                    <XAxis type="number" />
+                    <YAxis dataKey="author" type="category" width={100} />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="count" fill="#1976d2" barSize={20} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </Paper>
+            </Grid>
+
+            {/* Biểu đồ Customers */}
+            <Grid item xs={12} md={6}>
+              <Paper elevation={4} sx={{ p: isSmall ? 2 : 3, minHeight: isSmall ? 360 : 420 }}>
+                <Box display="flex" alignItems="center" mb={2}>
+                  <PeopleIcon color="secondary" sx={{ mr: 1 }} />
+                  <Typography variant="h6" fontWeight={600}>
+                    Phân phối giới tính nguời dùng
+                  </Typography>
+                </Box>
+
+                <ResponsiveContainer width="100%" height={isSmall ? 250 : 320}>
+                  <PieChart>
+                    <Pie
+                      data={pieData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={isSmall ? 90 : 120}
+                      label
+                    >
+                      {pieData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </Paper>
+            </Grid>
           </Grid>
-
-          {/* Biểu đồ Customers */}
-          <Grid item xs={12} md={6}>
-            <Paper elevation={4} sx={{ p: isSmall ? 2 : 3, minHeight: isSmall ? 360 : 420 }}>
-              <Box display="flex" alignItems="center" mb={2}>
-                <PeopleIcon color="secondary" sx={{ mr: 1 }} />
-                <Typography variant="h6" fontWeight={600}>
-                  Phân phối giới tính nguời dùng
-                </Typography>
-              </Box>
-
-              <ResponsiveContainer width="100%" height={isSmall ? 250 : 320}>
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={isSmall ? 90 : 120}
-                    label
-                  >
-                    {pieData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </Paper>
-          </Grid>
-        </Grid>
-      </motion.div>
-    </Box>
+        </motion.div>
+      </Box>
+    </>
   );
 }
