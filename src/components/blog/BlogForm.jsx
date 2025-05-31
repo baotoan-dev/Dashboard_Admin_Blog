@@ -45,7 +45,7 @@ function BlogForm({ form, onChange, onSubmit }) {
         },
       },
     }),
-    [],
+    [imageHandler],
   );
 
   return (
