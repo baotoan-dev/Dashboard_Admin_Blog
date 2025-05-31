@@ -3,11 +3,12 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useRef, useMemo } from 'react';
 import { uploadFile } from '../../api/upload';
+import { useCallback } from 'react';
 
 function BlogForm({ form, onChange, onSubmit }) {
   const quillRef = useRef();
 
-  const imageHandler = () => {
+  const imageHandler = useCallback(() => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
@@ -28,7 +29,7 @@ function BlogForm({ form, onChange, onSubmit }) {
         });
       }
     };
-  };
+  }, [onChange]);
 
   const modules = useMemo(
     () => ({
