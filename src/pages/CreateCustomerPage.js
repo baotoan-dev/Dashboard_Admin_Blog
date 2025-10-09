@@ -15,18 +15,6 @@ export default function CreateCustomerPage() {
     Role: ROLE_OPTIONS[0].value, // Mặc định chọn role đầu tiên
   });
 
-  const handleChange = (e) => {
-    if (e.target.name === 'avatar') {
-      setForm({ ...form, avatar: e.target.files[0] });
-    } else {
-      setForm({ ...form, [e.target.name]: e.target.value });
-    }
-  };
-
-  const handleRemoveAvatar = () => {
-    setForm({ ...form, avatar: '' });
-  };
-
   const handleSubmit = async (data) => {
     try {
       await dispatch(addUser(data)).unwrap();
@@ -53,12 +41,7 @@ export default function CreateCustomerPage() {
       <Typography variant="h6" mb={2} fontWeight="bold">
         Create New Customer
       </Typography>
-      <CustomerForm
-        form={form}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        onRemoveAvatar={handleRemoveAvatar}
-      />
+      <CustomerForm form={form} onSubmit={handleSubmit} />
     </Box>
   );
 }

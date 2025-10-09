@@ -7,7 +7,7 @@ import { ROLE_OPTIONS } from '../../data/roles';
 
 export default function EditCustomerModal({ open, onClose, onSave, customer }) {
   const [form, setForm] = useState({
-    Fullname: '',
+    FullName: '',
     Password: '',
     Email: '',
     AvatarUrl: '',
@@ -74,9 +74,9 @@ export default function EditCustomerModal({ open, onClose, onSave, customer }) {
         </Stack>
         <TextField
           label="Tên đầy đủ"
-          name="Fullname"
+          name="FullName"
           fullWidth
-          value={form.Fullname}
+          value={form.FullName}
           onChange={handleChange}
         />
         <TextField

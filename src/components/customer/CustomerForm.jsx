@@ -18,7 +18,7 @@ const schema = yup.object().shape({
   Role: yup.string().required('Role is required'),
 });
 
-export default function CustomerForm({ form, onSubmit, onRemoveAvatar }) {
+export default function CustomerForm({ form, onSubmit }) {
   const theme = useTheme();
 
   const {
@@ -47,6 +47,10 @@ export default function CustomerForm({ form, onSubmit, onRemoveAvatar }) {
     } catch (err) {
       alert('Upload failed!');
     }
+  };
+
+  const handleRemoveAvatar = () => {
+    setValue('AvatarUrl', '', { shouldValidate: true, shouldDirty: true });
   };
 
   const handleFormSubmit = (data) => {
@@ -120,7 +124,7 @@ export default function CustomerForm({ form, onSubmit, onRemoveAvatar }) {
               />
               <IconButton
                 size="small"
-                onClick={onRemoveAvatar}
+                onClick={handleRemoveAvatar}
                 sx={{
                   position: 'absolute',
                   top: 4,
