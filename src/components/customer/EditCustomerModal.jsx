@@ -7,18 +7,18 @@ import { ROLE_OPTIONS } from '../../data/roles';
 
 export default function EditCustomerModal({ open, onClose, onSave, customer }) {
   const [form, setForm] = useState({
-    Fullname: '',
-    Password: '',
-    Email: '',
-    AvatarUrl: '',
-    Role: '',
+    fullName: '',
+    password: '',
+    email: '',
+    avatarUrl: '',
+    role: '',
   });
   const [avatarPreview, setAvatarPreview] = useState('');
 
   useEffect(() => {
     if (customer) {
       setForm(customer);
-      setAvatarPreview(customer.AvatarUrl || '');
+      setAvatarPreview(customer.avatarUrl || '');
     }
   }, [customer]);
 
@@ -29,13 +29,13 @@ export default function EditCustomerModal({ open, onClose, onSave, customer }) {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setForm({ ...form, AvatarUrl: file });
+      setForm({ ...form, avatarUrl: file });
       setAvatarPreview(URL.createObjectURL(file));
     }
   };
 
   const handleRemoveAvatar = () => {
-    setForm({ ...form, AvatarUrl: '' });
+    setForm({ ...form, avatarUrl: '' });
     setAvatarPreview('');
   };
 
@@ -74,30 +74,30 @@ export default function EditCustomerModal({ open, onClose, onSave, customer }) {
         </Stack>
         <TextField
           label="Tên đầy đủ"
-          name="Fullname"
+          name="fullName"
           fullWidth
-          value={form.Fullname}
+          value={form.fullName}
           onChange={handleChange}
         />
         <TextField
           label="Email"
-          name="Email"
+          name="email"
           fullWidth
-          value={form.Email}
+          value={form.email}
           onChange={handleChange}
         />
         <TextField
           label="Password"
-          name="Password"
+          name="password"
           fullWidth
-          value={form.Password}
+          value={form.password}
           onChange={handleChange}
         />
         <TextField
           select
           label="Role"
-          name="Role"
-          value={form.Role || 'User'}
+          name="role"
+          value={form.role || 'User'}
           onChange={handleChange}
           fullWidth
           margin="normal"
