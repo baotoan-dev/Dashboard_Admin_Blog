@@ -12,10 +12,10 @@ import { ROLE_OPTIONS } from '../../data/roles';
 
 // Schema validation với yup
 const schema = yup.object().shape({
-  FullName: yup.string().required('Full Name is required'),
-  Email: yup.string().email('Invalid email').required('Email is required'),
-  Password: yup.string().required('Password is required'),
-  Role: yup.string().required('Role is required'),
+  fullName: yup.string().required('Full Name is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
+  password: yup.string().required('Password is required'),
+  role: yup.string().required('Role is required'),
 });
 
 export default function CustomerForm({ form, onSubmit }) {
@@ -43,14 +43,14 @@ export default function CustomerForm({ form, onSubmit }) {
     if (!file) return;
     try {
       const url = await uploadFile(file);
-      setValue('AvatarUrl', url, { shouldValidate: true, shouldDirty: true });
+      setValue('avatarUrl', url, { shouldValidate: true, shouldDirty: true });
     } catch (err) {
       alert('Upload failed!');
     }
   };
 
   const handleRemoveAvatar = () => {
-    setValue('AvatarUrl', '', { shouldValidate: true, shouldDirty: true });
+    setValue('avatarUrl', '', { shouldValidate: true, shouldDirty: true });
   };
 
   const handleFormSubmit = (data) => {
@@ -59,7 +59,7 @@ export default function CustomerForm({ form, onSubmit }) {
     }
   };
 
-  const avatarUrl = watch('AvatarUrl') || form.AvatarUrl;
+  const avatarUrl = watch('avatarUrl') || form.avatarUrl;
 
   return (
     <motion.div
@@ -88,14 +88,14 @@ export default function CustomerForm({ form, onSubmit }) {
             <>
               <input
                 type="file"
-                name="AvatarUrl"
+                name="avatarUrl"
                 accept="image/*"
-                id="AvatarUrl-upload"
+                id="avatarUrl-upload"
                 hidden
                 onChange={handleAvatarChange}
               />
               <label
-                htmlFor="AvatarUrl-upload"
+                htmlFor="avatarUrl-upload"
                 style={{
                   cursor: 'pointer',
                   width: '100%',
@@ -139,37 +139,37 @@ export default function CustomerForm({ form, onSubmit }) {
           )}
         </Box>
         <TextField
-          {...register('FullName')}
+          {...register('fullName')}
           label="Full Name"
-          error={!!errors.FullName}
-          helperText={errors.FullName?.message}
+          error={!!errors.fullName}
+          helperText={errors.fullName?.message}
           fullWidth
           margin="normal"
         />
         <TextField
-          {...register('Email')}
+          {...register('email')}
           label="Email"
-          error={!!errors.Email}
-          helperText={errors.Email?.message}
+          error={!!errors.email}
+          helperText={errors.email?.message}
           fullWidth
           margin="normal"
         />
         <TextField
-          {...register('Password')}
+          {...register('password')}
           label="Password"
           type="password"
-          error={!!errors.Password}
-          helperText={errors.Password?.message}
+          error={!!errors.password}
+          helperText={errors.password?.message}
           fullWidth
           margin="normal"
         />
         <TextField
-          {...register('Role')}
+          {...register('role')}
           select
           label="Role"
-          defaultValue={form.Role || 'User'}
-          error={!!errors.Role}
-          helperText={errors.Role?.message}
+          defaultValue={form.role || 'User'}
+          error={!!errors.role}
+          helperText={errors.role?.message}
           fullWidth
           margin="normal"
         >

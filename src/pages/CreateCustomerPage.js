@@ -8,11 +8,11 @@ import { addUser } from '../data/userSlice';
 export default function CreateCustomerPage() {
   const dispatch = useDispatch();
   const [form, setForm] = useState({
-    AvatarUrl: '',
-    FullName: '',
-    Password: '',
-    Email: '',
-    Role: ROLE_OPTIONS[0].value, // Mặc định chọn role đầu tiên
+    avatarUrl: '',
+    fullName: '',
+    password: '',
+    email: '',
+    role: ROLE_OPTIONS[0].value, // Mặc định chọn role đầu tiên
   });
 
   const handleSubmit = async (data) => {
@@ -20,11 +20,11 @@ export default function CreateCustomerPage() {
       await dispatch(addUser(data)).unwrap();
       alert('Customer created!');
       setForm({
-        AvatarUrl: '',
-        FullName: '',
-        Password: '',
-        Email: '',
-        Role: ROLE_OPTIONS[0].value,
+        avatarUrl: '',
+        fullName: '',
+        password: '',
+        email: '',
+        role: ROLE_OPTIONS[0].value,
       });
     } catch (error) {
       alert('Tạo user thất bại!');
